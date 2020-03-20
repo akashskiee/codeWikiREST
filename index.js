@@ -21,11 +21,7 @@ const Article = mongoose.model('Article', articleSchema);
 //GET
 app.get('/articles', (req, res) => {
     Article.find( (err, foundArticle) => {
-        if(!err){
-        res.send(foundArticle);
-        } else {
-            res.send(err);
-        }
+        res.send(err || foundArticle);
     });
 });
 
@@ -38,11 +34,7 @@ app.post('/articles', (req, res) => {
        content: req.body.content
    });
    newArticle.save((err) => {
-       if(!err){
-           res.send("Sucessfully added");
-       } else {
-           res.send(err);
-       }
+    res.send(err || "Sucessfully Added");
    });
 });
 
