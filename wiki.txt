@@ -1,0 +1,5 @@
+[{"_id":"5e74994d330bd6c824d36c73","title":"REST","content":"REST is short for REpresentational State Transfer. It's an architectural style for building APIs"},
+{"_id":"5e749a5b330bd6c824d36c9b","title":"Python","content":"Python is a powerful high level language that is used for web development and machine learning"},
+{"_id":"5e749ab3330bd6c824d36cb7","name":"Kotlin","content":"Kotlin is a cross-platform programming language which is used in Android development"},
+{"_id":"5e749b0a330bd6c824d36ccf","name":"Java","content":"Java is an object oriented programming language that is used in Web, Desktop, Application development"},
+{"_id":"5e74ea78fb5e80182498ddb7","name":"PHP","content":"Most booring language","__v":0}]
