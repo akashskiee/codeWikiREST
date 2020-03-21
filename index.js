@@ -11,41 +11,75 @@ app.set('view engine', 'ejs');
 mongoose.connect('mongodb://localhost:27017/wikiDB', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
 const articleSchema = mongoose.Schema({
-    name: String,
+    title: String,
     content: String
 });
 
 const Article = mongoose.model('Article', articleSchema);
 
+/////////route for all articles
 
-//GET
-app.get('/articles', (req, res) => {
+app.route("/articles")
+
+.get((req, res) => {
     Article.find( (err, foundArticle) => {
         res.send(err || foundArticle);
     });
-});
+})
 
-
-//POST
-app.post('/articles', (req, res) => {
+.post( (req, res) => {
    
-   const newArticle = new Article({
-       name: req.body.title,
-       content: req.body.content
-   });
-   newArticle.save((err) => {
-    res.send(err || "Sucessfully Added");
-   });
-});
+    const newArticle = new Article({
+        title: req.body.title,
+        content: req.body.content
+    });
+    newArticle.save((err) => {
+     res.send(err || "Sucessfully Added");
+    });
+ })
 
-
-//DELETE
-app.delete('/articles', (req, res) => {
+ .delete((req, res) => {
     Article.deleteMany((err) => {
         res.send(err || "Sucessfully deleted all articles");
     });
 });
 
+////////////////route for specific article
+
+app.route("/articles/:articleName")
+.get((req,res) => {
+        Article.findOne({title: req.params.articleName}, (err, specificArticle) => {
+            res.send(err || specificArticle);
+        });
+})
+
+.put((req, res) => {
+    Article.update(
+        {title: req.params.articleName},
+        {title: req.body.title, content: req.body.content},
+        {overwrite: true},
+        (err) =>{
+            res.send(err || "Sucessfully updated article!");
+        }
+        );
+})
+
+.patch((req, res) => {
+    Article.update(
+        {title: req.params.articleName},
+        {$set: req.body},
+        (err) => {
+            res.send(err || "Sucessfully updated");
+        }
+    );
+})
+
+.delete((req, res) => {
+    Article.deleteOne({title: req.params.articleName},
+        (err) => {
+            res.send(err || "Sucessfully deleted");
+        });
+});
 
 app.listen(port, () => {
     console.log("Server is running at localhost:" + port);
